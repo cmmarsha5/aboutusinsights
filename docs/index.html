@@ -57,19 +57,42 @@
         <p>Explore time-use data to understand the human experience</p>
 
         <form id="queryForm">
-            <input type="text" id="userQuery" placeholder="Type your question here, e.g., 'How much time do women aged 35-45 spend grocery shopping?'" required>
-            <button type="button" onclick="handleQuery()">Submit</button>
+            <input type="text" id="queryInput" placeholder="Type your question here, e.g., 'How much time do women aged 35-45 spend grocery shopping?'" required>
+            <button type="button" onclick="sendQuery()">Submit</button>
         </form>
 
         <div id="response"></div>
     </div>
 
     <script>
-        function handleQuery() {
-            const query = document.getElementById("userQuery").value;
-            document.getElementById("response").innerHTML = `Processing query: ${query}`;
-            // Here we will later add code to send this query to the backend for processing
+        async function sendQuery() {
+            // Get the user's query from the input field
+            const query = document.getElementById("queryInput").value;
+
+            // Define the URL of your Replit backend
+            const url = "https://2bb4be8c-39cb-4fa9-8908-eb849fa6dc48-00-2kcpto24gr09t.janeway.replit.dev/query";
+
+            try {
+                // Send the POST request to the backend
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ query })
+                });
+
+                // Parse the response JSON
+                const data = await response.json();
+
+                // Display the response message
+                document.getElementById("response").innerText = data.message;
+            } catch (error) {
+                console.error("Error:", error);
+                document.getElementById("response").innerText = "There was an error processing your request.";
+            }
         }
     </script>
+
 </body>
 </html>
