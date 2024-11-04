@@ -88,7 +88,13 @@
                 });
 
                 const data = await response.json();
-                document.getElementById("response").innerText = data.message;
+                if (data.response) {
+                    document.getElementById("response").innerText = data.response;
+                } else if (data.error) {
+                    document.getElementById("response").innerText = "Error: " + data.error;
+                } else {
+                    document.getElementById("response").innerText = "Unexpected response format.";
+                }
             } catch (error) {
                 console.error("Error:", error);
                 document.getElementById("response").innerText = "There was an error processing your request.";
