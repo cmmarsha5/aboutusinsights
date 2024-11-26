@@ -110,6 +110,12 @@
     </div>
 
     <script>
+        // Handle both button click and Enter key submission
+        document.getElementById("queryForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent form from reloading the page
+            handleQuery();
+        });
+
         function handleQuery() {
             const query = document.getElementById("userQuery").value;
             sendQuery(query);
