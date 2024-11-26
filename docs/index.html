@@ -64,6 +64,12 @@
             border: 1px solid #ccc;
             border-radius: 25px; /* Rounded corners */
             outline: none;
+            background: transparent;
+            color: #fff; /* Text color for visibility */
+        }
+
+        input[type="text"]::placeholder {
+            color: rgba(255, 255, 255, 0.7); /* Subtle placeholder color */
         }
 
         button {
@@ -79,9 +85,14 @@
         }
 
         #response {
-            margin-top: 1em;
-            font-size: 1.1em;
-            color: #f2c94c;
+            margin-top: 1.5em;
+            padding: 15px;
+            font-size: 1.2em;
+            color: #f2f2f2;
+            background-color: rgba(0, 0, 0, 0.7); /* Dark background for contrast */
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            display: none; /* Hidden by default */
         }
     </style>
 </head>
@@ -117,16 +128,23 @@
                 });
 
                 const data = await response.json();
+                const responseBox = document.getElementById("response");
+
                 if (data.response) {
-                    document.getElementById("response").innerText = data.response;
+                    responseBox.innerText = data.response;
+                    responseBox.style.display = "block"; // Show the response box
                 } else if (data.error) {
-                    document.getElementById("response").innerText = "Error: " + data.error;
+                    responseBox.innerText = "Error: " + data.error;
+                    responseBox.style.display = "block";
                 } else {
-                    document.getElementById("response").innerText = "Unexpected response format.";
+                    responseBox.innerText = "Unexpected response format.";
+                    responseBox.style.display = "block";
                 }
             } catch (error) {
                 console.error("Error:", error);
-                document.getElementById("response").innerText = "There was an error processing your request.";
+                const responseBox = document.getElementById("response");
+                responseBox.innerText = "There was an error processing your request.";
+                responseBox.style.display = "block";
             }
         }
     </script>
